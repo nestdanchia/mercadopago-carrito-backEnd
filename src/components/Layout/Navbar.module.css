@@ -1,0 +1,91 @@
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+/* Botón hamburguesa — oculto en desktop */
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--orange-fire);
+  padding: 0.3rem 0.6rem;
+}
+
+/* Contenedor de links */
+.links {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+/* En mobile: oculto por defecto, se muestra al abrir el menú */
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
+
+  .links {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    padding: 0.5rem 0;
+    gap: 0.4rem;
+  }
+
+  .linksAbierto {
+    display: flex;
+  }
+}
+
+.logoutButton {
+  background: rgb(232, 65, 19);
+  color: #9dff00;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 15px;
+  cursor: pointer;
+}
+
+.logoutButton:hover {
+  opacity: 0.9;
+}
+
+/* =========================================================
+   LINKS
+   ========================================================= */
+
+.link {
+  background-color: var(--white);
+  color: var(--orange-fire);
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-weight: bold;
+  transition:
+    background-color var(--transition),
+    color var(--transition),
+    transform var(--transition);
+}
+
+.link:hover {
+  background-color: var(--orange-fire);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+.active {
+  background-color: var(--orange-fire);
+  color: var(--white);
+  transform: translateY(-2px);
+}
