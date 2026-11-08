@@ -15,18 +15,12 @@ Esta entrega final se encuentra en un repositorio nuevo porque incorpora funcion
 ---
 
 ## Demo en vivo
-Repositorio
 
-GitHub - mercadopago-carrito-backEnd
-
-Frontend (Vercel)
-
-https://mercadopago-carrito-back-end.vercel.app/
-
-Backend (Render)
-
-https://mercadopago-carrito-backend.onrender.com
-
+| Recurso | URL |
+|---|---|
+| Repositorio | https://github.com/nestdanchia/mercadopago-carrito-backEnd |
+| Frontend (Vercel) | https://mercadopago-carrito-back-end.vercel.app/ |
+| Backend (Render) | https://mercadopago-carrito-backend.onrender.com |
 
 **Credenciales de administrador:** fueron enviadas al docente.
 
@@ -133,7 +127,24 @@ Ver archivo: `INSTRUCCIONES_TARJETAS.txt` en la raíz del proyecto.
 ## Estructura del proyecto
 
 ```
-TPprimerEntrega/
+mercadopago-carrito-backEnd/
+│
+├── backEnd/                         ← Backend separado (antes era server.js monolítico)
+│   ├── src/
+│   │   ├── app.js                   ← Entry point: Express + middleware + rutas
+│   │   ├── config/
+│   │   │   └── environment.js       ← Variables de entorno, tokens y keys
+│   │   ├── controllers/
+│   │   │   ├── chat.js              ← Manejo de req/res del endpoint /chat
+│   │   │   └── pagos.js             ← Manejo de req/res del endpoint /pagos
+│   │   ├── routes/
+│   │   │   ├── chat.js              ← Definición de la ruta /chat
+│   │   │   └── pagos.js             ← Definición de la ruta /pagos
+│   │   └── services/
+│   │       ├── ia.service.js        ← Lógica de IA (Groq + fallback OpenRouter)
+│   │       └── mercadopago.service.js ← Lógica de creación de preferencias MP
+│   ├── .env                         ← Variables de entorno del backend (no se sube a Git)
+│   └── package.json
 │
 ├── public/
 │   ├── data/
@@ -169,10 +180,9 @@ TPprimerEntrega/
 │   ├── App.jsx
 │   └── main.jsx
 │
-├── server.js                       ← Backend Express (IA + Mercado Pago)
 ├── vercel.json                     ← Configuración de rutas para Vercel (SPA)
-├── package.json
-├── .env                            ← Variables de entorno (no se sube a Git)
+├── package.json                    ← Dependencias del frontend
+├── .env                            ← Variables de entorno del frontend (no se sube a Git)
 ├── INSTRUCCIONES_TARJETAS.txt      ← Guía para probar el pago con MP
 └── README.md
 ```
@@ -270,7 +280,7 @@ VITE_FIREBASE_APP_ID=...
 El token de acceso vive únicamente en el servidor (`.env`), nunca en el frontend.
 Se usa el SDK oficial de Mercado Pago para Node.js (`mercadopago` v3).
 El checkout está en modo sandbox con cuentas de prueba.
-En producción se deben actualizar las `back_urls` con las URLs de Vercel y activar `auto_return: "approved"` en `server.js`.
+En producción se deben actualizar las `back_urls` con las URLs de Vercel y activar `auto_return: "approved"` en `backEnd/src/services/mercadopago.service.js`.
 
 ---
 

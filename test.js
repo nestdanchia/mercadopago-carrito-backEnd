@@ -1,4 +1,4 @@
-fetch("https://mercadopago-carrito-backEnd.onrender.com/pagos", {
+fetch("https://mercadopago-carrito-backend.onrender.com/pagos", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({

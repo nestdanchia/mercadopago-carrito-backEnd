@@ -134,12 +134,16 @@ F) getClass({ isActive }) - Navbar.jsx
 ---------------------------------------------------------
 
 ARQUITECTURA
-  Frontend (React) <-> Backend Express (server.js) <-> API MercadoPago
-  El token de acceso NUNCA sale al frontend. Solo vive en server.js via .env.
+  Frontend (React) <-> Backend Express (backEnd/) <-> API MercadoPago
+  El token de acceso NUNCA sale al frontend. Solo vive en el backend via backEnd/.env.
+  El backend esta separado en la carpeta backEnd/ con estructura en capas:
+    app.js (entry point) -> routes -> controllers -> services -> config/environment.js
+  Ya no es un archivo monolitico (server.js fue eliminado y dividido en capas).
 
 FLUJO TECNICO
 
-  3.1 - CREACION DE LA PREFERENCIA (server.js - endpoint POST /pagos)
+  3.1 - CREACION DE LA PREFERENCIA (backEnd/ - endpoint POST /pagos)
+    El endpoint vive en backEnd/src/controllers/pagos.js y la logica en backEnd/src/services/mercadopago.service.js
     Recibe del frontend: items, totalFinal, orderId.
     Construye un unico item resumen:
       { title: "Compra tienda online", quantity: 1, unit_price: totalFinal, currency_id: "ARS" }
@@ -264,7 +268,7 @@ PROBLEMA 4 - At least one policy returned UNAUTHORIZED
   quien esta haciendo la solicitud y devuelve UNAUTHORIZED.
   Va en el archivo .env del servidor (NUNCA en el frontend):
     MERCADOPAGO_ACCESS_TOKEN=APP_USR-8395297306015993-...
-  Y se usa en server.js para configurar el cliente oficial del SDK:
+  Y se usa en backEnd/src/config/environment.js para configurar el cliente oficial del SDK:
     const client = new MercadoPagoConfig({
       accessToken: process.env.MERCADOPAGO_ACCESS_TOKEN
     });
