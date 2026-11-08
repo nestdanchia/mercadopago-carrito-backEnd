@@ -15,12 +15,18 @@ Esta entrega final se encuentra en un repositorio nuevo porque incorpora funcion
 ---
 
 ## Demo en vivo
+Repositorio
 
-| Recurso | URL |
-|---|---|
-| Repositorio | https://github.com/nestdanchia/mercadopago-carrito-backEnd.git |
-| Frontend (Vercel) | https://mercadopago-carrito-react.vercel.app |
-| Backend (Render) |https://mercadopago-carrito-backend.onrender.com|
+GitHub - mercadopago-carrito-backEnd
+
+Frontend (Vercel)
+
+https://mercadopago-carrito-back-end.vercel.app/
+
+Backend (Render)
+
+https://mercadopago-carrito-backend.onrender.com
+
 
 **Credenciales de administrador:** fueron enviadas al docente.
 
