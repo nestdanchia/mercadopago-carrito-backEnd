@@ -7,7 +7,7 @@ import { crearOrden, validarStockDisponible } from "../../services/ordenesServic
 import styles from "./Carrito.module.css";
 
 // Umbral a partir del cual se aplica el bono de descuento
-const UMBRAL_BONO   = 1_000_000;
+const UMBRAL_BONO = 1_000_000;
 const PORCENTAJE_BONO = 0.30;
 
 // Genera un código de bono único con prefijo BONO- y 8 caracteres aleatorios
@@ -17,14 +17,14 @@ const generarCodigoBono = () =>
 export function Carrito() {
   const { carrito, vaciarCarrito } = useContext(CartContext);
   const { user } = useAuth();
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
 
   // codigoBono: null = no generado aún, string = bono activo
-  const [codigoBono,    setCodigoBono]    = useState(null);
+  const [codigoBono, setCodigoBono] = useState(null);
   // inputBono: lo que el usuario tipea para canjear
-  const [inputBono,     setInputBono]     = useState("");
-  const [bonoAplicado,  setBonoAplicado]  = useState(false);
-  const [errorBono,     setErrorBono]     = useState(null);
+  const [inputBono, setInputBono] = useState("");
+  const [bonoAplicado, setBonoAplicado] = useState(false);
+  const [errorBono, setErrorBono] = useState(null);
 
   // Total bruto sin descuento
   const totalBruto = carrito.reduce(
@@ -39,8 +39,8 @@ export function Carrito() {
     setCodigoBono(generarCodigoBono());
   }
 
-  const descuento   = bonoAplicado ? Math.round(totalBruto * PORCENTAJE_BONO) : 0;
-  const totalFinal  = totalBruto - descuento;
+  const descuento = bonoAplicado ? Math.round(totalBruto * PORCENTAJE_BONO) : 0;
+  const totalFinal = totalBruto - descuento;
 
   // Valida el código ingresado contra el generado para esta sesión
   const aplicarBono = () => {
@@ -55,7 +55,11 @@ export function Carrito() {
   const continuarComprando = () => navigate("/");
 
   const finalizarCompra = async () => {
-    if (carrito.length === 0) return;
+    if (carrito.length === 0) {
+      alert("El carrito está vacío. Agregá productos para finalizar tu compra.");
+      return;
+    }
+
     // PUERTA DE COMPRA — control en el carrito:
     // Verifica que user exista antes de procesar la compra.
     // user es el objeto de Firebase Auth — si es null, no hay sesión activa.
@@ -68,17 +72,17 @@ export function Carrito() {
     }
 
     const nuevaOrden = {
-      usuarioId:     user.uid,
-      usuarioEmail:  user.email,
+      usuarioId: user.uid,
+      usuarioEmail: user.email,
       items: carrito.map((item) => ({
-        id:       item.id,
-        nombre:   item.nombre,
-        precio:   item.precio,
+        id: item.id,
+        nombre: item.nombre,
+        precio: item.precio,
         cantidad: item.cantidad,
       })),
       totalBruto,
       descuento,
-      total:     totalFinal,
+      total: totalFinal,
       bonoUsado: bonoAplicado ? codigoBono : null,
     };
 
@@ -89,8 +93,8 @@ export function Carrito() {
       // una red de seguridad contra overselling (dos usuarios comprando lo mismo
       // al mismo tiempo o stock desactualizado en pantalla).
       const itemsParaValidar = carrito.map((item) => ({
-        id:       item.id,
-        nombre:   item.nombre,
+        id: item.id,
+        nombre: item.nombre,
         cantidad: item.cantidad,
       }));
       const { valido, faltantes } = await validarStockDisponible(itemsParaValidar);
@@ -143,10 +147,10 @@ export function Carrito() {
 
       // 3. Vaciar carrito y redirigir a MercadoPago
       vaciarCarrito();
-     // window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=${data.id}`;
-     // window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=${data.id}`;
-     window.location.href = data.init_point;
-     // ─────────────────────────────────────────────────────────────────────
+      // window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=${data.id}`;
+      // window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=${data.id}`;
+      window.location.href = data.init_point;
+      // ─────────────────────────────────────────────────────────────────────
 
     } catch (error) {
       console.error("Error al procesar la compra:", error);
